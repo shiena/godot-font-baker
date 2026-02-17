@@ -7,6 +7,7 @@ signal progress_updated(message: String)
 class BakeOptions:
 	var msdf_pixel_range: int = 14
 	var msdf_size: int = 48
+	var face_index: int = 0
 
 
 ## Bake MSDF glyph atlas from a font file.
@@ -28,6 +29,8 @@ func bake(src_font_path: String, char_ranges: Array, char_points: PackedInt32Arr
 
 	var src := FontFile.new()
 	src.data = font_data
+	if options.face_index > 0:
+		src.set_face_index(0, options.face_index)
 	src.multichannel_signed_distance_field = true
 	src.msdf_pixel_range = options.msdf_pixel_range
 	src.msdf_size = options.msdf_size
@@ -101,6 +104,26 @@ func bake(src_font_path: String, char_ranges: Array, char_points: PackedInt32Arr
 
 	progress_updated.emit("Bake complete: %d glyphs, %d textures." % [copied_count, tex_count])
 	return dst
+
+
+## Get font face information from a font file.
+## Returns an Array of dictionaries with keys: index, name, style, display.
+static func get_font_faces(font_path: String) -> Array:
+	var font_data := FileAccess.get_file_as_bytes(font_path)
+	if font_data.is_empty():
+		return []
+	var font := FontFile.new()
+	font.data = font_data
+	var faces: Array = []
+	for i in font.get_face_count():
+		font.set_face_index(0, i)
+		var name := font.get_font_name()
+		var style := font.get_font_style_name()
+		var display := (name + " " + style).strip_edges()
+		if display.is_empty():
+			display = "Face %d" % i
+		faces.append({"index": i, "name": name, "style": style, "display": display})
+	return faces
 
 
 ## Extract unique characters from a text file.

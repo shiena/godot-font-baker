@@ -29,6 +29,17 @@ unique_name_in_owner = true
 text = "(none)"
 autowrap_mode = 3
 
+[node name="FaceRow" type="HBoxContainer" parent="."]
+visible = false
+
+[node name="FaceLabel" type="Label" parent="FaceRow"]
+text = "Font Face:"
+size_flags_horizontal = 3
+
+[node name="FaceOption" type="OptionButton" parent="FaceRow"]
+unique_name_in_owner = true
+size_flags_horizontal = 3
+
 [node name="DstRow" type="HBoxContainer" parent="."]
 
 [node name="DstLabel" type="Label" parent="DstRow"]

@@ -4,6 +4,8 @@ extends VBoxContainer
 var _src_path: String = ""
 var _dst_path: String = ""
 var _custom_text_path: String = ""
+var _face_list: Array = []
+var _selected_face_index: int = 0
 var _src_dialog: EditorFileDialog
 var _dst_dialog: EditorFileDialog
 var _custom_text_dialog: EditorFileDialog
@@ -42,7 +44,7 @@ func _ready() -> void:
 	_src_dialog = EditorFileDialog.new()
 	_src_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
 	_src_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
-	_src_dialog.add_filter("*.ttf, *.otf ; Font Files")
+	_src_dialog.add_filter("*.ttf, *.otf, *.ttc, *.otc ; Font Files")
 	_src_dialog.title = "Select Source Font"
 	_src_dialog.file_selected.connect(_on_src_selected)
 	add_child(_src_dialog)
@@ -70,6 +72,7 @@ func _ready() -> void:
 	%DstButton.pressed.connect(func(): _dst_dialog.popup_centered_ratio(0.6))
 	%CustomTextButton.pressed.connect(func(): _custom_text_dialog.popup_centered_ratio(0.6))
 	%BakeButton.pressed.connect(_on_bake_pressed)
+	%FaceOption.item_selected.connect(_on_face_selected)
 
 	# Connect checkboxes for status update
 	for cb_name in CHECKBOX_NAMES:
@@ -82,6 +85,8 @@ func _ready() -> void:
 func _on_src_selected(path: String) -> void:
 	_src_path = path
 	%SrcPath.text = path.get_file()
+	_face_list = FontBakerCore.get_font_faces(path)
+	_update_face_selector()
 	_update_status()
 
 
@@ -100,6 +105,22 @@ func _on_custom_text_cleared() -> void:
 	_custom_text_path = ""
 	%CustomTextPath.text = "(none)"
 	_update_status()
+
+
+func _update_face_selector() -> void:
+	%FaceOption.clear()
+	_selected_face_index = 0
+	if _face_list.size() <= 1:
+		%FaceOption.get_parent().visible = false
+		return
+	%FaceOption.get_parent().visible = true
+	for face in _face_list:
+		%FaceOption.add_item(face["display"], face["index"])
+	%FaceOption.selected = 0
+
+
+func _on_face_selected(idx: int) -> void:
+	_selected_face_index = %FaceOption.get_item_id(idx)
 
 
 func _update_status() -> void:
@@ -164,6 +185,7 @@ func _on_bake_pressed() -> void:
 	var options := FontBakerCore.BakeOptions.new()
 	options.msdf_pixel_range = int(%PixelRangeSpin.value)
 	options.msdf_size = int(%MsdfSizeSpin.value)
+	options.face_index = _selected_face_index
 
 	# Bake
 	var baker := FontBakerCore.new()
