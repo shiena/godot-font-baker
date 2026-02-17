@@ -28,7 +28,6 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 text = "(none)"
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 11
 
 [node name="DstRow" type="HBoxContainer" parent="."]
 
@@ -45,17 +44,17 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 text = "(none)"
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 11
 
 [node name="HSeparator1" type="HSeparator" parent="."]
 
 [node name="MsdfTitle" type="Label" parent="."]
-text = "MSDF Settings"
+text = "Quality Settings"
 
 [node name="PixelRangeRow" type="HBoxContainer" parent="."]
 
 [node name="PixelRangeLabel" type="Label" parent="PixelRangeRow"]
-text = "Pixel Range:"
+text = "Edge Width:"
+tooltip_text = "MSDF Pixel Range. Controls the width of the anti-aliased edge around glyphs. Higher values produce smoother edges but increase atlas size. Default: 14"
 size_flags_horizontal = 3
 
 [node name="PixelRangeSpin" type="SpinBox" parent="PixelRangeRow"]
@@ -63,12 +62,14 @@ unique_name_in_owner = true
 min_value = 1.0
 max_value = 40.0
 value = 14.0
+tooltip_text = "MSDF Pixel Range. Controls the width of the anti-aliased edge around glyphs. Higher values produce smoother edges but increase atlas size. Default: 14"
 size_flags_horizontal = 3
 
 [node name="MsdfSizeRow" type="HBoxContainer" parent="."]
 
 [node name="MsdfSizeLabel" type="Label" parent="MsdfSizeRow"]
-text = "MSDF Size:"
+text = "Source Resolution:"
+tooltip_text = "MSDF Size. The resolution at which glyphs are rasterized into the atlas. Higher values produce sharper glyphs but increase atlas size and bake time. Default: 48"
 size_flags_horizontal = 3
 
 [node name="MsdfSizeSpin" type="SpinBox" parent="MsdfSizeRow"]
@@ -77,6 +78,7 @@ min_value = 16.0
 max_value = 128.0
 step = 8.0
 value = 48.0
+tooltip_text = "MSDF Size. The resolution at which glyphs are rasterized into the atlas. Higher values produce sharper glyphs but increase atlas size and bake time. Default: 48"
 size_flags_horizontal = 3
 
 [node name="HSeparator2" type="HSeparator" parent="."]
@@ -138,7 +140,6 @@ size_flags_horizontal = 3
 unique_name_in_owner = true
 text = "(none)"
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 11
 
 [node name="HSeparator4" type="HSeparator" parent="."]
 
@@ -146,7 +147,6 @@ theme_override_font_sizes/font_size = 11
 unique_name_in_owner = true
 text = "Ready."
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 12
 
 [node name="BakeButton" type="Button" parent="."]
 unique_name_in_owner = true
@@ -156,4 +156,3 @@ text = "Bake"
 unique_name_in_owner = true
 text = ""
 autowrap_mode = 3
-theme_override_font_sizes/font_size = 12

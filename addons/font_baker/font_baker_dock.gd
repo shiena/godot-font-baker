@@ -38,9 +38,10 @@ const CHECKBOX_NAMES := [
 
 
 func _ready() -> void:
-	# Source font dialog
+	# Source font dialog (ACCESS_FILESYSTEM to allow selecting fonts outside res://)
 	_src_dialog = EditorFileDialog.new()
 	_src_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+	_src_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
 	_src_dialog.add_filter("*.ttf, *.otf ; Font Files")
 	_src_dialog.title = "Select Source Font"
 	_src_dialog.file_selected.connect(_on_src_selected)
@@ -54,12 +55,14 @@ func _ready() -> void:
 	_dst_dialog.file_selected.connect(_on_dst_selected)
 	add_child(_dst_dialog)
 
-	# Custom text file dialog
+	# Custom text file dialog (ACCESS_FILESYSTEM to allow selecting files outside res://)
 	_custom_text_dialog = EditorFileDialog.new()
 	_custom_text_dialog.file_mode = EditorFileDialog.FILE_MODE_OPEN_FILE
+	_custom_text_dialog.access = EditorFileDialog.ACCESS_FILESYSTEM
 	_custom_text_dialog.add_filter("*.txt ; Text Files")
 	_custom_text_dialog.title = "Select Custom Text File"
 	_custom_text_dialog.file_selected.connect(_on_custom_text_selected)
+	_custom_text_dialog.canceled.connect(_on_custom_text_cleared)
 	add_child(_custom_text_dialog)
 
 	# Connect buttons
@@ -90,6 +93,12 @@ func _on_dst_selected(path: String) -> void:
 func _on_custom_text_selected(path: String) -> void:
 	_custom_text_path = path
 	%CustomTextPath.text = path.get_file()
+	_update_status()
+
+
+func _on_custom_text_cleared() -> void:
+	_custom_text_path = ""
+	%CustomTextPath.text = "(none)"
 	_update_status()
 
 

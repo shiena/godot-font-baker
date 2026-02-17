@@ -33,7 +33,7 @@ func bake(src_font_path: String, char_ranges: Array, char_points: PackedInt32Arr
 	src.msdf_size = options.msdf_size
 
 	# 2. Render specified character ranges
-	var size := Vector2i(options.msdf_size * 64, 0)
+	var size := Vector2i(options.msdf_size, 0)
 	var ts := TextServerManager.get_primary_interface()
 	var src_rids := src.get_rids()
 	if src_rids.is_empty():
