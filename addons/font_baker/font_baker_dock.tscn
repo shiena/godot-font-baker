@@ -1,0 +1,159 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/font_baker/font_baker_dock.gd" id="1"]
+
+[node name="FontBakerDock" type="VBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+script = ExtResource("1")
+
+[node name="Title" type="Label" parent="."]
+text = "Font Baker"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="HSeparator0" type="HSeparator" parent="."]
+
+[node name="SrcRow" type="HBoxContainer" parent="."]
+
+[node name="SrcLabel" type="Label" parent="SrcRow"]
+text = "Source Font:"
+size_flags_horizontal = 3
+
+[node name="SrcButton" type="Button" parent="SrcRow"]
+unique_name_in_owner = true
+text = "Select..."
+size_flags_horizontal = 3
+
+[node name="SrcPath" type="Label" parent="."]
+unique_name_in_owner = true
+text = "(none)"
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 11
+
+[node name="DstRow" type="HBoxContainer" parent="."]
+
+[node name="DstLabel" type="Label" parent="DstRow"]
+text = "Output Path:"
+size_flags_horizontal = 3
+
+[node name="DstButton" type="Button" parent="DstRow"]
+unique_name_in_owner = true
+text = "Select..."
+size_flags_horizontal = 3
+
+[node name="DstPath" type="Label" parent="."]
+unique_name_in_owner = true
+text = "(none)"
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 11
+
+[node name="HSeparator1" type="HSeparator" parent="."]
+
+[node name="MsdfTitle" type="Label" parent="."]
+text = "MSDF Settings"
+
+[node name="PixelRangeRow" type="HBoxContainer" parent="."]
+
+[node name="PixelRangeLabel" type="Label" parent="PixelRangeRow"]
+text = "Pixel Range:"
+size_flags_horizontal = 3
+
+[node name="PixelRangeSpin" type="SpinBox" parent="PixelRangeRow"]
+unique_name_in_owner = true
+min_value = 1.0
+max_value = 40.0
+value = 14.0
+size_flags_horizontal = 3
+
+[node name="MsdfSizeRow" type="HBoxContainer" parent="."]
+
+[node name="MsdfSizeLabel" type="Label" parent="MsdfSizeRow"]
+text = "MSDF Size:"
+size_flags_horizontal = 3
+
+[node name="MsdfSizeSpin" type="SpinBox" parent="MsdfSizeRow"]
+unique_name_in_owner = true
+min_value = 16.0
+max_value = 128.0
+step = 8.0
+value = 48.0
+size_flags_horizontal = 3
+
+[node name="HSeparator2" type="HSeparator" parent="."]
+
+[node name="CharsetTitle" type="Label" parent="."]
+text = "Character Sets"
+
+[node name="CharsetContainer" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+
+[node name="ChkAscii" type="CheckBox" parent="CharsetContainer"]
+button_pressed = true
+text = "ASCII"
+
+[node name="ChkLatinExt" type="CheckBox" parent="CharsetContainer"]
+text = "Latin Extended"
+
+[node name="ChkHiragana" type="CheckBox" parent="CharsetContainer"]
+button_pressed = true
+text = "ひらがな"
+
+[node name="ChkKatakana" type="CheckBox" parent="CharsetContainer"]
+button_pressed = true
+text = "カタカナ"
+
+[node name="ChkCjkSymbols" type="CheckBox" parent="CharsetContainer"]
+button_pressed = true
+text = "CJK記号・句読点"
+
+[node name="ChkFullwidth" type="CheckBox" parent="CharsetContainer"]
+text = "全角英数"
+
+[node name="ChkCjkUnified" type="CheckBox" parent="CharsetContainer"]
+text = "CJK統合漢字"
+
+[node name="ChkCjkExtA" type="CheckBox" parent="CharsetContainer"]
+text = "CJK統合漢字拡張A"
+
+[node name="ChkJis1" type="CheckBox" parent="CharsetContainer"]
+text = "JIS第一水準"
+
+[node name="ChkJis2" type="CheckBox" parent="CharsetContainer"]
+text = "JIS第二水準"
+
+[node name="HSeparator3" type="HSeparator" parent="."]
+
+[node name="CustomTextRow" type="HBoxContainer" parent="."]
+
+[node name="CustomTextLabel" type="Label" parent="CustomTextRow"]
+text = "Custom Text File:"
+size_flags_horizontal = 3
+
+[node name="CustomTextButton" type="Button" parent="CustomTextRow"]
+unique_name_in_owner = true
+text = "Select..."
+size_flags_horizontal = 3
+
+[node name="CustomTextPath" type="Label" parent="."]
+unique_name_in_owner = true
+text = "(none)"
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 11
+
+[node name="HSeparator4" type="HSeparator" parent="."]
+
+[node name="StatusLabel" type="Label" parent="."]
+unique_name_in_owner = true
+text = "Ready."
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 12
+
+[node name="BakeButton" type="Button" parent="."]
+unique_name_in_owner = true
+text = "Bake"
+
+[node name="ResultLabel" type="Label" parent="."]
+unique_name_in_owner = true
+text = ""
+autowrap_mode = 3
+theme_override_font_sizes/font_size = 12
