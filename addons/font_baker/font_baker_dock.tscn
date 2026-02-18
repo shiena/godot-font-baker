@@ -6,7 +6,7 @@
 [sub_resource type="Theme" id="Theme_1"]
 default_font = ExtResource("2")
 
-[node name="FontBakerDock" type="VBoxContainer"]
+[node name="Font Baker" type="VBoxContainer"]
 custom_minimum_size = Vector2(250, 0)
 theme = SubResource("Theme_1")
 script = ExtResource("1")
