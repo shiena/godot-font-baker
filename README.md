@@ -1,15 +1,15 @@
 # Font Baker
 
-Godot 4 editor plugin that bakes MSDF glyph atlases from TTF/OTF fonts.
+Godot 4 editor plugin that bakes MSDF glyph atlases from TTF/OTF/TTC/OTC fonts.
 
-The baked `.tres` resource contains only the glyph cache (textures + metrics), allowing text rendering **without distributing the original font file**. This is useful for CJK fonts with restrictive licenses that prohibit embedding.
+The baked `.tres`/`.res` resource contains only the glyph cache (textures + metrics), allowing text rendering **without distributing the original font file**. This is useful for CJK fonts with restrictive licenses that prohibit embedding.
 
 ## How It Works
 
-1. Load a TTF/OTF font and enable MSDF rendering
+1. Load a TTF/OTF/TTC/OTC font and enable MSDF rendering
 2. Render the selected character ranges into glyph atlas textures
 3. Remap glyph indices from FreeType IDs to Unicode code points
-4. Save as a FontFile resource (`.tres`) with cache data only, no font binary
+4. Save as a FontFile resource (`.tres` or compressed `.res`) with cache data only, no font binary
 
 Godot's TextServer already supports "no font data" mode where glyphs are looked up directly from cache, so the baked resource works as a drop-in replacement.
 
@@ -20,8 +20,8 @@ Copy the `addons/font_baker/` directory into your Godot project's `addons/` fold
 ## Usage
 
 1. Open the **Font Baker** dock panel (bottom-left by default)
-2. Select a source TTF/OTF font
-3. Choose an output path for the `.tres` file
+2. Select a source TTF/OTF/TTC/OTC font (font collections will show a face selector)
+3. Choose an output path (`.res` for compressed binary, `.tres` for text)
 4. Adjust MSDF settings if needed (Pixel Range, MSDF Size)
 5. Select character sets to include
 6. Optionally load a text file to extract used characters
