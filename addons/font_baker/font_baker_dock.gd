@@ -52,7 +52,8 @@ func _ready() -> void:
 	# Destination dialog
 	_dst_dialog = EditorFileDialog.new()
 	_dst_dialog.file_mode = EditorFileDialog.FILE_MODE_SAVE_FILE
-	_dst_dialog.add_filter("*.tres ; Godot Resource")
+	_dst_dialog.add_filter("*.res ; Binary Resource (compressed)")
+	_dst_dialog.add_filter("*.tres ; Text Resource")
 	_dst_dialog.title = "Select Output Path"
 	_dst_dialog.file_selected.connect(_on_dst_selected)
 	add_child(_dst_dialog)
@@ -197,8 +198,11 @@ func _on_bake_pressed() -> void:
 		%BakeButton.disabled = false
 		return
 
-	# Save
-	var err := ResourceSaver.save(result, _dst_path)
+	# Save (use compression for binary .res format)
+	var save_flags := 0
+	if _dst_path.get_extension() == "res":
+		save_flags = ResourceSaver.FLAG_COMPRESS
+	var err := ResourceSaver.save(result, _dst_path, save_flags)
 	if err != OK:
 		%ResultLabel.text = "Save failed: error %d" % err
 	else:
