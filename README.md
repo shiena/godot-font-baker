@@ -1,4 +1,8 @@
-# Font Baker
+<p align="center">
+  <img src="addons/font_baker/icon.svg" alt="font_baker logo" width="128" height="128">
+</p>
+
+<h1 align="center">Font Baker</h1>
 
 Godot 4 editor plugin that bakes MSDF glyph atlases from TTF/OTF/TTC/OTC fonts.
 
