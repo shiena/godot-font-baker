@@ -31,6 +31,10 @@ Copy the `addons/font_baker/` directory into your Godot project's `addons/` fold
 6. Optionally load a text file to extract used characters
 7. Click **Bake**
 
+<p align="center">
+  <img src=".github/screenshot.png" alt="Font Baker dock panel" width="300">
+</p>
+
 ## Character Set Presets
 
 | Preset | Range | Count |
