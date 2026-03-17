@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v0.1.0)'
+        required: true
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate version
+        run: |
+          INPUT_VERSION="${{ inputs.version }}"
+          INPUT_VERSION="${INPUT_VERSION#v}"
+
+          # Check if tag already exists
+          if git rev-parse "refs/tags/${{ inputs.version }}" >/dev/null 2>&1; then
+            echo "::error::Tag ${{ inputs.version }} already exists. Delete it first to re-release."
+            exit 1
+          fi
+
+          # Get latest tag
+          LATEST_TAG=$(git tag -l 'v*' | sort -V | tail -n1)
+          if [ -z "$LATEST_TAG" ]; then
+            echo "No existing tags found. Proceeding with release."
+            exit 0
+          fi
+
+          LATEST_VERSION="${LATEST_TAG#v}"
+          echo "Input version: $INPUT_VERSION"
+          echo "Latest version: $LATEST_VERSION"
+
+          HIGHER=$(printf '%s\n%s' "$LATEST_VERSION" "$INPUT_VERSION" | sort -V | tail -n1)
+          if [ "$HIGHER" != "$INPUT_VERSION" ]; then
+            echo "::error::Input version ($INPUT_VERSION) must be greater than or equal to latest version ($LATEST_VERSION)"
+            exit 1
+          fi
+
+          echo "Version check passed: $INPUT_VERSION >= $LATEST_VERSION"
+
+      - name: Update plugin.cfg version
+        run: |
+          VERSION="${{ inputs.version }}"
+          VERSION="${VERSION#v}"
+
+          sed -i "s/^version=\".*\"/version=\"${VERSION}\"/" addons/font_baker/plugin.cfg
+          echo "Updated plugin.cfg:"
+          cat addons/font_baker/plugin.cfg
+
+      - name: Commit and push version update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add addons/font_baker/plugin.cfg
+          if git diff --cached --quiet; then
+            echo "No version changes needed (version already set)"
+          else
+            git commit -m "chore: bump version to ${{ inputs.version }}"
+            git push origin main
+          fi
+
+          # Create and push tag
+          git tag ${{ inputs.version }}
+          git push origin ${{ inputs.version }}
+
+      - name: Prepare release archive
+        run: |
+          # Wrap in top-level folder for Godot Asset Library (auto-skips top-level)
+          mkdir -p godot-font-baker/addons
+          cp -r addons/font_baker godot-font-baker/addons/
+          cp README.md LICENSE godot-font-baker/addons/font_baker/
+          zip -r godot-font-baker-${{ inputs.version }}.zip godot-font-baker
+
+          echo "Archive contents:"
+          unzip -l godot-font-baker-${{ inputs.version }}.zip
+
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh release create ${{ inputs.version }} \
+            --title "Release ${{ inputs.version }}" \
+            --generate-notes \
+            godot-font-baker-${{ inputs.version }}.zip
