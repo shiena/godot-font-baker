@@ -29,10 +29,16 @@ unique_name_in_owner = true
 text = "Select..."
 size_flags_horizontal = 3
 
-[node name="SrcPath" type="Label" parent="."]
+[node name="SrcPathRow" type="HBoxContainer" parent="."]
+
+[node name="Spacer" type="Control" parent="SrcPathRow"]
+size_flags_horizontal = 3
+
+[node name="SrcPath" type="Label" parent="SrcPathRow"]
 unique_name_in_owner = true
 text = "(none)"
 autowrap_mode = 3
+size_flags_horizontal = 3
 
 [node name="FaceRow" type="HBoxContainer" parent="."]
 visible = false
@@ -56,10 +62,16 @@ unique_name_in_owner = true
 text = "Select..."
 size_flags_horizontal = 3
 
-[node name="DstPath" type="Label" parent="."]
+[node name="DstPathRow" type="HBoxContainer" parent="."]
+
+[node name="Spacer" type="Control" parent="DstPathRow"]
+size_flags_horizontal = 3
+
+[node name="DstPath" type="Label" parent="DstPathRow"]
 unique_name_in_owner = true
 text = "(none)"
 autowrap_mode = 3
+size_flags_horizontal = 3
 
 [node name="HSeparator1" type="HSeparator" parent="."]
 
@@ -152,10 +164,16 @@ unique_name_in_owner = true
 text = "Select..."
 size_flags_horizontal = 3
 
-[node name="CustomTextPath" type="Label" parent="."]
+[node name="CustomTextPathRow" type="HBoxContainer" parent="."]
+
+[node name="Spacer" type="Control" parent="CustomTextPathRow"]
+size_flags_horizontal = 3
+
+[node name="CustomTextPath" type="Label" parent="CustomTextPathRow"]
 unique_name_in_owner = true
 text = "(none)"
 autowrap_mode = 3
+size_flags_horizontal = 3
 
 [node name="HSeparator4" type="HSeparator" parent="."]
 
