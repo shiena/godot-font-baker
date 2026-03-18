@@ -52,6 +52,21 @@ Copy the `addons/font_baker/` directory into your Godot project's `addons/` fold
 
 JIS Level 1/2 code points are sourced from the [Unicode Consortium JIS X 0208 mapping](https://www.unicode.org/Public/MAPPINGS/OBSOLETE/EASTASIA/JIS/JIS0208.TXT).
 
+## Using Multiple Baked Fonts
+
+Use Godot's font fallback system to combine multiple baked resources. Glyphs are looked up in order — the primary font first, then each fallback.
+
+```gdscript
+var font := load("res://japanese.res")
+font.fallbacks = [
+    load("res://chinese.res"),
+    load("res://korean.res"),
+]
+label.add_theme_font_override("font", font)
+```
+
+Shared code points (e.g. CJK Unified Ideographs) use the glyph from whichever font is found first, so place your preferred language's font as the primary.
+
 ## Limitations
 
 - No HarfBuzz shaping (ligatures, contextual alternation) in baked output. CJK text is unaffected since it uses 1:1 character-to-glyph mapping.
