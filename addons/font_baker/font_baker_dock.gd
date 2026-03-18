@@ -198,6 +198,20 @@ func _on_bake_pressed() -> void:
 		%BakeButton.disabled = false
 		return
 
+	# Store selected charsets as metadata
+	var selected_charsets: PackedStringArray = []
+	for i in CHARSET_KEYS.size():
+		var cb: CheckBox = %CharsetContainer.get_node(CHECKBOX_NAMES[i])
+		if cb.button_pressed:
+			selected_charsets.append(CHARSET_KEYS[i])
+	if not selected_charsets.is_empty():
+		result.set_meta("charsets", selected_charsets)
+
+	if not _custom_text_path.is_empty():
+		var custom_text := FileAccess.open(_custom_text_path, FileAccess.READ).get_as_text().strip_edges()
+		if not custom_text.is_empty():
+			result.set_meta("custom_text", custom_text)
+
 	# Save (use compression for binary .res format)
 	var save_flags := 0
 	if _dst_path.get_extension() == "res":

@@ -102,6 +102,11 @@ func bake(src_font_path: String, char_ranges: Array, char_points: PackedInt32Arr
 	dst.set_cache_ascent(0, size.x, src.get_cache_ascent(0, size.x))
 	dst.set_cache_descent(0, size.x, src.get_cache_descent(0, size.x))
 
+	# 7. Store source font name as metadata
+	var font_name := (src.get_font_name() + " " + src.get_font_style_name()).strip_edges()
+	if not font_name.is_empty():
+		dst.set_meta("source_font", font_name)
+
 	progress_updated.emit("Bake complete: %d glyphs, %d textures." % [copied_count, tex_count])
 	return dst
 
